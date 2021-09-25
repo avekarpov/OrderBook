@@ -1,0 +1,8 @@
+{
+  "orders" :
+  [
+    {"type" : "0", "price" : "7.74", "amount" : "40"},
+    {"type" : "1", "price" : "12.80", "amount" : "9"},
+    {"type" : "1", "price" : "165.1", "amount" : "151"}
+  ]
+}

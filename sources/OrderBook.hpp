@@ -10,6 +10,8 @@ class OrderBook
 public:
     struct Order
     {
+        Order(bool type, double price, unsigned amount);
+        
         bool type; //equals to 1 bid, else ask
         double price;
         unsigned amount;
@@ -17,24 +19,22 @@ public:
     
     OrderBook();
     
-    void update(bool, double price, unsigned amount);
-    void update(std::string snapshotJson);
-    
+    void update(bool type, double price, unsigned amount);
+    void update(const std::string &snapshotJson);
+
     const Order &getTopBid() const;
     const Order &getTopBid(unsigned amount) const;
     const Order &getTopAsk() const;
     const Order &getTopAsk(unsigned amount) const;
-    
+
     friend std::ostream &operator<<(std::ostream &os, const OrderBook &orderBook);
-    
-    ~OrderBook();
     
     class OrderBookException : public std::exception
     {
     public:
-        OrderBookException(const std::string &message);
+        explicit OrderBookException(std::string message);
         
-        const char * what() const override;
+        [[nodiscard]] const char * what() const override;
         
     private:
         std::string _message;
@@ -42,8 +42,7 @@ public:
     };
     
 private:
-    std::list<Order> _orders;
-    std::list<Order>::iterator _topBid;
+    std::list<Order> _bids, _asks;
     
 };
 
