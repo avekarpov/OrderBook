@@ -7,7 +7,6 @@
 #include <boost/property_tree/json_parser.hpp>
 
 #include <fstream>
-#include <utility>
 
 OrderBook::Order::Order(bool type, double price, unsigned int amount)  : type(type), price(price), amount(amount) {}
 
@@ -93,10 +92,72 @@ std::ostream &operator<<(std::ostream &os, const OrderBook &orderBook)
     
     return os;
 }
+
+const OrderBook::Order &OrderBook::getTopBid() const
+{
+    if(_bids.empty())
+    {
+        throw OrderBookException("List of bids is empty");
+    }
+    
+    return _bids.front();
+}
+
+bool OrderBook::getTopBid(unsigned int amount, Order &order) const
+{
+    if(_bids.empty())
+    {
+        throw OrderBookException("List of bids is empty");
+    }
+    
+    for(auto it = _bids.begin(); it != _bids.end(); ++it)
+    {
+        if(it->amount >= amount)
+        {
+            order = *it;
+            
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+const OrderBook::Order &OrderBook::getTopAsk() const
+{
+    if(_asks.empty())
+    {
+        throw OrderBookException("List of asks is empty");
+    }
+    
+    return _asks.front();
+}
+
+bool OrderBook::getTopAsk(unsigned int amount, Order &order) const
+{
+    if(_asks.empty())
+    {
+        throw OrderBookException("List of asks is empty");
+    }
+    
+    for(auto it = _asks.begin(); it != _asks.end(); ++it)
+    {
+        if(it->amount >= amount)
+        {
+            order = *it;
+            
+            return true;
+        }
+    }
+    
+    return false;
+}
+
 OrderBook::OrderBookException::OrderBookException(std::string message) : _message(std::move(message))
 {
 
 }
+
 const char *OrderBook::OrderBookException::what() const
 {
     return _message.c_str();

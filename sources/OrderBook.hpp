@@ -22,10 +22,10 @@ public:
     void update(bool type, double price, unsigned amount);
     void update(const std::string &snapshotJson);
 
-    const Order &getTopBid() const;
-    const Order &getTopBid(unsigned amount) const;
-    const Order &getTopAsk() const;
-    const Order &getTopAsk(unsigned amount) const;
+    [[nodiscard]] const Order &getTopBid() const;
+    [[nodiscard]] bool getTopBid(unsigned amount, Order &order) const;
+    [[nodiscard]] const Order &getTopAsk() const;
+    [[nodiscard]] bool getTopAsk(unsigned amount, Order &order) const;
 
     friend std::ostream &operator<<(std::ostream &os, const OrderBook &orderBook);
     
