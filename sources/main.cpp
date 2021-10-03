@@ -14,6 +14,10 @@ int main(int argc, char *argv[])
 
     std::cout << orderBook << std::endl;
     
+    orderBook.update(false, 8.56, 0);
+    
+    std::cout << orderBook << std::endl;
+    
     return 0;
     
 }

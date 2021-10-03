@@ -16,6 +16,31 @@ void OrderBook::update(bool type, double price, unsigned int amount)
 {
     if(amount == 0)
     {
+        if(type)
+        {
+            for(auto it = _asks.begin(); it != _asks.end(); ++it)
+            {
+                if(it->price == price)
+                {
+                    _asks.erase(it);
+                    
+                    return;
+                }
+            }
+        }
+        else
+        {
+            for(auto it = _bids.begin(); it != _bids.end(); ++it)
+            {
+                if(it->price == price)
+                {
+                    _bids.erase(it);
+            
+                    return;
+                }
+            }
+        }
+        
         return;
     }
     
